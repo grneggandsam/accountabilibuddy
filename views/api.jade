@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  script(src='/javascripts/addStep.js')
+  h1 The API
+  #API.col-md-4
+    h3(class="form-signin-heading") Users
+    p GET /users/userlist  : Retrieves a list of all users
+    p POST /users/login/:email/:password  : Does a login check to determine if password and email were correct. returns user or x if incorrect.
+    p POST /users/addUser  : creates a new user defined by the body sent.
+    P DELETE /users/:id  : deletes the specified user
+    p GET /users/getUser/:email : returns the specified user according to email
+    br
+    h3(class="form-signin-heading") Goals
+    p GET /goals/goals  
+      tab : Returns a list of all goals.
+    p POST /users/login/:email/:password  : Does a login check to determine if password and email were correct. returns user or x if incorrect.
+    p POST /users/addUser  : creates a new user defined by the body sent.
+    P DELETE /users/:id  : deletes the specified user
+    p GET /users/getUser/:email : returns the specified user according to email
+    br
