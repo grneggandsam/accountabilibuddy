@@ -27,6 +27,7 @@ router.get('/findusergoals/:user', function(req, res) {
   var db = req.db;
   var collection = db.get('goals');
   console.log("got db");
+
   var user = req.params.user;
   console.log("searching for: " + user);
   collection.find({ 'user' : user , 'step' : '#primary'}, {}, function(e,docs){

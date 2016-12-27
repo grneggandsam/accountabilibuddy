@@ -5,18 +5,44 @@ var userListData = [];
 $(document).ready(function() {
 
     $('#btnAddUser').on('click', addUser);
-
+    $('#btnLogin').on('click', login);
+    $('#btnLogout').on('click', logOut);
 
 });
 
 // Functions =============================================================
 
+// Add cookie
+function login(event) {
+  // First do Password Check
+  var email = $('#loginEmail').val();
+  var pw = $('#loginPassword').val();
+  $.ajax({
+      type: 'POST',
+      url: '/users/login/' + email + '/' + pw,
+      dataType: 'JSON'
+  }).done(function( response ) {
+    console.log(response);
+    if(response.msg == 'x') {
+      alert('incorrect credentials!');
+    }
+    else {
+      var d = new Date();
+      var exdays = 20;
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      var expires = ";expires="+ d.toUTCString();
+      document.cookie = "email=" + response.email + expires + ";path=/";
+      document.cookie = "password=" + response.password + expires + ";path=/";
+      document.cookie = "loggedIn=true" + expires + ";path=/";
+      location.reload();
+    }
+  });
+
+}
 
 // Add User
 function addUser(event) {
 
-    console.log("clicked it!");
-    
     event.preventDefault();
 
     // Super basic validation - increase errorCount variable if any fields are blank
@@ -38,8 +64,6 @@ function addUser(event) {
                 'email': $('#addUser input#inputUserEmail').val(),
                 'password': $('#addUser input#inputPassword').val(),
                 'fullname': $('#addUser input#inputUserFullname').val()
-                // 'age': $('#addUser fieldset input#inputUserAge').val(),
-                // 'location': $('#addUser fieldset input#inputUserLocation').val()
             }
 
             // Use AJAX to post the object to our adduser service
@@ -52,6 +76,15 @@ function addUser(event) {
 
                 // Check for successful (blank) response
                 if (response.msg === '') {
+
+                    // Create Cookies for user info
+                    var d = new Date();
+                    var exdays = 20;
+                    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                    var expires = ";expires="+ d.toUTCString();
+                    document.cookie = "email=" + newUser.email + expires + ";path=/";
+                    document.cookie = "password=" + newUser.password + expires + ";path=/";
+                    document.cookie = "loggedIn=true" + expires + ";path=/";
 
                     // Clear the form inputs
                     $('#addUser fieldset input').val('');
@@ -121,4 +154,10 @@ function deleteUser(event) {
 
     }
 
+};
+
+// Delete User
+function logOut(event) {
+  document.cookie = "loggedIn=false";
+  location.reload();
 };

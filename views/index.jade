@@ -1,25 +1,28 @@
 extends layout
 
 block content
-  script(src='/javascripts/addStep.js')
-  h1 Accountabilibuddy
-  #addUser.col-md-4
-    h3(class="form-signin-heading") New? Signup today!
-    input#inputUserName(type='text', placeholder='Username', class="form-control")
-    input#inputUserEmail(type='text', placeholder='Email Address', class="form-control")
-    input#inputUserFullname(type='text', placeholder='Full Name', class="form-control")
-    input#inputPassword(type='password', placeholder='Password', class="form-control")
-    input(type="password", id="inputpasswordconf", class="form-control", placeholder="Re-enter Password")
+  script(src='/javascripts/accounts.js')
+  #phantom.col-md-4
+  #signContain.col-md-4
+    #addUser
+      h1 Influencey
+      h3(class="form-signin-heading") New? Signup today!
+      input#inputUserName(type='text', placeholder='Username', class="form-control")
+      br
+      input#inputUserEmail(type='text', placeholder='Email Address', class="form-control")
+      br
+      input#inputUserFullname(type='text', placeholder='Full Name', class="form-control")
+      br
+      input#inputPassword(type='password', placeholder='Password', class="form-control")
+      br
+      input(type="password", id="inputpasswordconf", class="form-control", placeholder="Re-enter Password")
+      br
+      button#btnAddUser(class="btn btn-lg btn-primary btn-block") Register
     br
-    button#btnAddUser(class="btn btn-lg btn-primary btn-block") Register
     br
+    h3(class="form-signin-heading") Sign In
+    input#loginEmail(type='text', placeholder='Email', class="form-control")
     br
-  #addStep.col-md-4
-    h3(class="form-signin-heading") Add a goal
-    input#inputUser(type='text', placeholder='User', class="form-control")
-    input#inputGoal(type='text', placeholder='Goal', class="form-control")
-    input#inputStep(type='text', placeholder='Step', class="form-control")
-    input#inputDescription(type='text', placeholder='Description', class="form-control")
-    input#inputDate(type='text', placeholder='Date', class="form-control")
+    input#loginPassword(type='text', placeholder='Password', class="form-control")
     br
-    button#btnAddStep(class="btn btn-lg btn-primary btn-block") Add
+    button#btnLogin(class="btn btn-lg btn-primary btn-block") Login
