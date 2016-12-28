@@ -12,7 +12,7 @@ $(document).ready(function() {
 // Functions =============================================================
 
 
-// Add User
+// Add Step
 function addStep(event) {
 
     console.log("clicked add!");

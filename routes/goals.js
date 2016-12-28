@@ -37,6 +37,22 @@ router.get('/findusergoals/:user', function(req, res) {
   });
 });
 
+router.get('/findemailgoals/:email', function(req, res) {
+  var db = req.db;
+  var collection = db.get('goals');
+  var collection2 = db.get('userlist');
+  var email = req.params.email;
+  collection2.find({ 'email' : email }, {}, function(e2,docs2){
+    if(e2 === null) {
+      collection.find({ 'user' : docs2[0].username , 'step' : '#primary'}, {}, function(e,docs){
+        if(e === null) {
+          res.json(docs);
+        }
+      });
+    }
+  });
+});
+
 router.get('/findbuddygoals/:buddy', function(req, res) {
   console.log("hit find buddy goals");
   var buddy = req.params.buddy;
@@ -96,6 +112,45 @@ router.post('/addstep', function(req, res) {
                   (err === null) ? { msg: '' } : { msg: err }
               );
           });
+        }
+    });
+});
+
+/*
+ * POST to add goal.
+ */
+router.post('/addstepb', function(req, res) {
+    var db = req.db;
+    var collection2 = db.get('goals');
+    var email = req.cookies.email;
+    var password = req.cookies.password;
+    var collection = db.get('userlist');
+
+    collection.find( {'email' : email, 'password' : password}, {}, function(err, docs) {
+        var newStep = {
+            'user': docs[0].username,
+            'goal': req.body.goal,
+            'step': req.body.step,
+            'description': req.body.description,
+            'date': req.body.date
+        }
+
+        if (docs[0].password == password) {
+          collection2.find( {'user' : newStep.user, 'goal' : newStep.goal}, {}, function(err2, docs2) {
+            if(docs2[0] === undefined) {
+              collection2.insert(newStep, function(err, result){
+                  res.send(
+                      (err === null) ? { msg: '' } : { msg: err }
+                  );
+              });
+            }
+            else {
+              res.send( { msg: "Goal Name Already Exists"} );
+            }
+          });
+        }
+        else {
+          res.send( { msg: "Incorrect Credentials in Cookie Info."} );
         }
     });
 });

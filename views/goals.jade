@@ -4,6 +4,26 @@ block content
   script(src='/javascripts/accounts.js')
   script(src='/javascripts/goalPage.js')
   #phantom.col-md-4
-  #addUser.col-md-4
+  #container.col-md-4
     h1 Goals
+    br
+    each goal, index in goals
+      .panel-group
+        .panel.panel-default
+          .panel-head
+            h4.panel-title
+              a(data-toggle='collapse', href='#col#{index}')= goal.goal
+          div(id="col#{index}" class="panel-collapse collapse")
+            p= goal.description
+    else
+      li sorry, no goals yet!
+    .panel-group
+      .panel.panel-default
+        .panel-heading
+          h4.panel-title
+            a(data-toggle='collapse', href='#collapse1') Add a Goal!
+        #collapse1.panel-collapse.collapse
+          input#inputGoal(type='text', placeholder='Goal Name', class="form-control")
+          button#btnAddGoal.panel-footer.btn.btn-block Submit Goal
+    br
     button#btnLogout(class="btn btn-lg btn-primary btn-block") Logout
