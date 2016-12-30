@@ -3,27 +3,38 @@ extends layout
 block content
   script(src='/javascripts/accounts.js')
   script(src='/javascripts/goalPage.js')
-  #phantom.col-md-4
-  #container.col-md-4
-    h1 Goals
-    br
-    each goal, index in goals
-      .panel-group
-        .panel.panel-default
-          .panel-head
-            h4.panel-title
-              a(data-toggle='collapse', href='#col#{index}')= goal.goal
-          div(id="col#{index}" class="panel-collapse collapse")
-            p= goal.description
-    else
-      li sorry, no goals yet!
+  h1 Goals
+  br
+  each goal, index in goals
     .panel-group
       .panel.panel-default
         .panel-heading
           h4.panel-title
-            a(data-toggle='collapse', href='#collapse1') Add a Goal!
-        #collapse1.panel-collapse.collapse
-          input#inputGoal(type='text', placeholder='Goal Name', class="form-control")
-          button#btnAddGoal.panel-footer.btn.btn-block Submit Goal
-    br
-    button#btnLogout(class="btn btn-lg btn-primary btn-block") Logout
+            a(data-toggle='collapse', href='#col#{index}')= goal.goal
+        div(id="col#{index}" class="panel-collapse collapse")
+          br
+          each step, indexb in goal.steps
+            p.col-md-12= step.step + ': ' + step.date
+              //span= step.description
+          p.col-md-12 Create a New Step
+          input#inputStepName(type='text', placeholder='Step Name', class="form-control")
+          br
+          input#inputStepDesc(type='text', placeholder='Step Description', class="form-control")
+          br
+          input#inputStepDate(type='text', placeholder='Step Deadline Date (mm/dd/yy)', class="form-control")
+          br
+          button#btnAddStep.panel-footer.btn.btn-block Submit Step
+  else
+    li sorry, no goals yet!
+  .panel-group
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title
+          a(data-toggle='collapse', href='#collapse2') Add a Goal!
+      #collapse2.panel-collapse.collapse
+        br
+        input#inputGoal(type='text', placeholder='Goal Name', class="form-control")
+        br
+        button#btnAddGoal.panel-footer.btn.btn-block Submit Goal
+  br
+  button#btnLogout(class="btn btn-lg btn-primary btn-block") Logout
